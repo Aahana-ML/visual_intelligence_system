@@ -141,7 +141,8 @@ if uploaded_file is not None:
     st.image(
         image,
         caption="Uploaded Image",
-        width="strech"
+        use_container_width=True
+       
     )
 
     analyze_button = st.button(
