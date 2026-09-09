@@ -141,7 +141,7 @@ if uploaded_file is not None:
     st.image(
         image,
         caption="Uploaded Image",
-        use_container_width=True
+        width="strech"
     )
 
     analyze_button = st.button(
@@ -150,14 +150,31 @@ if uploaded_file is not None:
 
     if analyze_button:
         st.write("STEP 1: Starting YOLO...")
-        # ==========================================
-        # YOLO OBJECT DETECTION
-        # ==========================================
-
-        yolo_results = yolo_model(
-            image,
-            conf=confidence_threshold
+        
+        try:
+            st.write("Image type:", type(image))
+            st.write("Image size:", image.size)
+            
+            st.write("STEP 2: Calling YOLO...")
+            
+            results = yolo_model.predict(
+            source=image,
+            conf=confidence_threshold,
+            device="cpu",
+            verbose=False
         )
+            st.write("STEP 3: YOLO completed!")
+            
+            result = results[0]
+            
+            st.write("Detections:", len(result.boxes))
+            
+        except Exception as e:
+            st.error(f"YOLO Python error: {e}")
+
+        
+        
+       
 
         st.write("STEP 2: YOLO finished!")
 
