@@ -147,49 +147,69 @@ if uploaded_file is not None:
     analyze_button = st.button(
         "🔍 Analyze Image"
     )
-    
-if analyze_button:
 
-    st.write("STEP 1: Starting YOLO...")
+    if analyze_button:
+        st.write("STEP 1: Starting YOLO...")
+        # ==========================================
+        # YOLO OBJECT DETECTION
+        # ==========================================
 
-    yolo_results = yolo_model(
-        image,
-        conf=confidence_threshold
-    )
+        yolo_results = yolo_model(
+            image,
+            conf=confidence_threshold
+        )
 
-    st.write("STEP 2: YOLO finished!")
+        st.write("STEP 2: YOLO finished!")
 
-    yolo_result = yolo_results[0]
+        yolo_result = yolo_results[0]
 
-    st.write("STEP 3: Starting scene model...")
+        st.write("STEP 3: Starting scene model...")
 
-    img = image.resize((150, 150))
+        # ==========================================
+        # SCENE CLASSIFICATION
+        # ==========================================
 
-    img_array = img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
+        img = image.resize((150, 150))
 
-    scene_predictions = scene_model.predict(
-        img_array,
-        verbose=0
-    )
+        img_array = img_to_array(img)
 
-    st.write("STEP 4: Scene model finished!")
+        img_array = np.expand_dims(
+            img_array,
+            axis=0
+        )
 
-    predicted_index = np.argmax(scene_predictions[0])
+        # IMPORTANT:
+        # No /255 here.
+        # This matches our trained model pipeline.
 
-    predicted_scene = scene_classes[predicted_index]
+        scene_predictions = scene_model.predict(
+            img_array,
+            verbose=0
+        )
 
-    scene_confidence = float(
-        scene_predictions[0][predicted_index]
-    )
+         st.write("STEP 4: Scene model finished!")
 
-    st.write("STEP 5: Everything worked!")
+        
 
-    st.write(
+        predicted_index = np.argmax(
+            scene_predictions[0]
+        )
+
+        predicted_scene = scene_classes[
+            predicted_index
+        ]
+
+        scene_confidence = float(
+            scene_predictions[0][predicted_index]
+        )
+
+        st.write("STEP 5: Everything worked!")
+
+        st.write(
         f"Scene: {predicted_scene}, "
         f"Confidence: {scene_confidence:.2%}"
     )
-    
+
         # ==========================================
         # SCENE RESULT
         # ==========================================
