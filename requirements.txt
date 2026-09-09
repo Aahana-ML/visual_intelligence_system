@@ -1,9 +1,6 @@
 ﻿streamlit
-ultralytics==8.4.131
+ultralytics-opencv-headless
 tensorflow
-numpy==2.5.2
+numpy
 pillow
 matplotlib
-opencv-python-headless==5.0.0
-torch==2.13.0
-torchvision==0.28.0
