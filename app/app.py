@@ -1,3 +1,19 @@
+import numpy as np
+print("NUMPY OK")
+
+import cv2
+print("OPENCV OK")
+
+import tensorflow as tf
+print("TENSORFLOW OK")
+
+from ultralytics import YOLO
+print("ULTRALYTICS OK")
+
+print("ALL IMPORTS OK")
+
+
+
 import streamlit as st
 from ultralytics import YOLO
 from tensorflow.keras.models import load_model
