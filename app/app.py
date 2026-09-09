@@ -1,19 +1,3 @@
-import numpy as np
-print("NUMPY OK")
-
-import cv2
-print("OPENCV OK")
-
-import tensorflow as tf
-print("TENSORFLOW OK")
-
-from ultralytics import YOLO
-print("ULTRALYTICS OK")
-
-print("ALL IMPORTS OK")
-
-
-
 import streamlit as st
 from ultralytics import YOLO
 from tensorflow.keras.models import load_model
@@ -142,7 +126,6 @@ if uploaded_file is not None:
         image,
         caption="Uploaded Image",
         use_container_width=True
-       
     )
 
     analyze_button = st.button(
@@ -150,38 +133,17 @@ if uploaded_file is not None:
     )
 
     if analyze_button:
-        st.write("STEP 1: Starting YOLO...")
-        
-        try:
-            st.write("Image type:", type(image))
-            st.write("Image size:", image.size)
-            
-            st.write("STEP 2: Calling YOLO...")
-            
-            results = yolo_model.predict(
-            source=image,
-            conf=confidence_threshold,
-            device="cpu",
-            verbose=False
+
+        # ==========================================
+        # YOLO OBJECT DETECTION
+        # ==========================================
+
+        yolo_results = yolo_model(
+            image,
+            conf=confidence_threshold
         )
-            st.write("STEP 3: YOLO completed!")
-            
-            result = results[0]
-            
-            st.write("Detections:", len(result.boxes))
-            
-        except Exception as e:
-            st.error(f"YOLO Python error: {e}")
-
-        
-        
-       
-
-        st.write("STEP 2: YOLO finished!")
 
         yolo_result = yolo_results[0]
-
-        st.write("STEP 3: Starting scene model...")
 
         # ==========================================
         # SCENE CLASSIFICATION
@@ -205,8 +167,6 @@ if uploaded_file is not None:
             verbose=0
         )
 
-        st.write("STEP 4: Scene model finished!")
-
         predicted_index = np.argmax(
             scene_predictions[0]
         )
@@ -218,13 +178,6 @@ if uploaded_file is not None:
         scene_confidence = float(
             scene_predictions[0][predicted_index]
         )
-
-        st.write("STEP 5: Everything worked!")
-
-        st.write(
-        f"Scene: {predicted_scene}, "
-        f"Confidence: {scene_confidence:.2%}"
-    )
 
         # ==========================================
         # SCENE RESULT
@@ -300,16 +253,16 @@ if uploaded_file is not None:
         st.markdown("---")
 
         st.markdown(
-    """
-    <div style="
-        text-align: center;
-        font-size: 0.75rem;
-        color: yellow;
-    ">
-        Visual Intelligence System ·
-        Built with YOLO, EfficientNetB0 & Streamlit ·
-        Developed with guidance from ChatGPT
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+            """
+            <div style="
+                text-align: center;
+                font-size: 0.75rem;
+                color: yellow;
+            ">
+                Visual Intelligence System ·
+                Built with YOLO, EfficientNetB0 & Streamlit ·
+                Developed with guidance from ChatGPT
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
