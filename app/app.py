@@ -187,9 +187,7 @@ if uploaded_file is not None:
             verbose=0
         )
 
-         st.write("STEP 4: Scene model finished!")
-
-        
+        st.write("STEP 4: Scene model finished!")
 
         predicted_index = np.argmax(
             scene_predictions[0]
