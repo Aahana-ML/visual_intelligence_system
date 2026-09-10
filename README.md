@@ -6,7 +6,7 @@ The system combines a fine-tuned **EfficientNetB0** model for scene classificati
 
 ## 🚀 Live Demo
 
-[Try the deployed Visual Intelligence System](https://visualintelligencesystem-nwvcrzwb9cvbeeflbx2kzr.streamlit.app/)
+[Try the deployed Visual Intelligence System](https://visualintelligencesystem-ngsknxqrzfjzuj5hdwm7eu.streamlit.app/)
 
 ---
 
